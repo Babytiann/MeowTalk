@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "start": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\""
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
