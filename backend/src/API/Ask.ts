@@ -7,7 +7,7 @@ dotenv.config({ path: '.env.development.local' });
 const router = express.Router();
 
 // 异步请求封装
-const fetchMeowTalk = async (message: string) => {
+const fetchMeowTalk = async (message: string, res: Response) => {
 
     try {
         const response = await axios.post("https://meow-talk.herokuapp.com/",
@@ -32,13 +32,44 @@ const fetchMeowTalk = async (message: string) => {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${process.env.SERVER_CLIENT_ID}`,
                 },
+                responseType: "stream", // 让 axios 以流式方式接收数据
             }
         );
-        console.log("LLM Response:", response.data);
-        return response.data;
+
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+
+        let fullResponse = "";
+
+        response.data.on("data", (chunk: Buffer) => {
+            const dataStr = chunk.toString().trim();
+            if (dataStr.startsWith("data:")) {
+                try {
+                    const jsonData = JSON.parse(dataStr.replace(/^data:/, "").trim());
+                    const textChunk = jsonData?.choices?.[0]?.delta?.content;
+                    if (textChunk) {
+                        fullResponse += textChunk;
+                        res.write(textChunk); // 逐步将数据返回给前端
+                    }
+                } catch (err) {
+                    console.error("JSON 解析失败:", err);
+                }
+            }
+        })
+
+        response.data.on("end", () => {
+            res.end(); // 结束流式返回
+            console.log("完整响应内容:", fullResponse);
+        })
+
+        response.data.on("error", (err: any) => {
+            console.error("流式请求出错:", err);
+            res.status(500).end();
+        });
     } catch (error) {
         console.error("Error fetching MeowTalk API:", error);
-        return null;
+        res.status(500).json({ error: "Failed to fetch AI response" });
     }
 };
 
@@ -51,8 +82,8 @@ router
        try{
            const { message } = req.body; // 获取前端传来的 message
 
-           const data = await fetchMeowTalk(message);
-           res.json(data);
+           await fetchMeowTalk(message, res);
+
        }catch (error) {
            res.status(500).json({ error: "Failed to fetch AI response" });
        }
