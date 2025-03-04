@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors'
-import ask from './API/Ask'
+
+import ask from './API/AskAi'
+import login from './API/Login'
 
 const app = express();
 
@@ -33,7 +35,8 @@ app.use(express.json());  // 解析 JSON 请求体
 app.use(express.urlencoded({ extended: true }));  // 解析 URL-encoded 请求体
 
 //使用express Router
-app.use("/ask", ask);
+app.use("/askai", ask);
+app.use("/login", login);
 
 
 app.get('/', (_, res) => {
