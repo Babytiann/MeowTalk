@@ -16,7 +16,7 @@ async function initDatabase(table: string) {
         const createTableQuery = `
             CREATE TABLE IF NOT EXISTS ?? (  -- 使用占位符??
                 id INT AUTO_INCREMENT PRIMARY KEY,  
-                userId VARCHAR(255) NOT NULL,  
+                userName varchar(255) NOT NULL,
                 password VARCHAR(100) NOT NULL,  
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
             );  

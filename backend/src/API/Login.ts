@@ -16,7 +16,7 @@ async function checkAuth(UserId: string, Password: string): Promise<boolean> {
     });
 
     try {
-        const [rows] = await conn.execute('SELECT password FROM accounts WHERE userId = ?', [UserId]);
+        const [rows] = await conn.execute('SELECT password FROM accounts WHERE userName = ?', [UserId]);
 
         // 强制类型断言为 RowDataPacket[]，以便访问数组
         const row = (rows as mysql.RowDataPacket[])[0];
@@ -54,7 +54,7 @@ router
     .post("/", async (req: Request, res: Response) => {
         console.log(req.body);
         const { userName, password } = req.body;
-        console.log(userName, password);
+        console.log( userName, password);
 
         const isAuthenticated = await checkAuth(userName, password);
         if (isAuthenticated) {
