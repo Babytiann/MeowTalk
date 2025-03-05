@@ -36,8 +36,11 @@ async function addUser(request: Request, response: Response) {
         );
 
         console.log("Registering account success: ", result);
+
+        response.status(200).send("Regist success");
     }catch (error) {
         console.error("Failed to create account in Register API", error);
+        response.status(400).json({ error: error });
     }finally {
         await conn.end();
     }
