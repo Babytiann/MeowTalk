@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env.development.local' });
 
-async function initDatabase(table: string) {
+async function initDatabase() {
 
     const conn = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -14,7 +14,7 @@ async function initDatabase(table: string) {
 
     try {
         const createTableQuery = `
-            CREATE TABLE IF NOT EXISTS ?? (  -- 使用占位符??
+            CREATE TABLE IF NOT EXISTS accounts (
                 id INT AUTO_INCREMENT PRIMARY KEY,  
                 userName varchar(255) NOT NULL,
                 password VARCHAR(100) NOT NULL,  
@@ -22,7 +22,7 @@ async function initDatabase(table: string) {
             );  
         `;
 
-        await conn.query(createTableQuery, [table]);  // 使用占位符避免SQL注入
+        await conn.query(createTableQuery);  // 使用占位符避免SQL注入
     }catch (error){
         console.error("Create table accounts error:", error);
     }finally{

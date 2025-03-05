@@ -3,6 +3,8 @@ import cors from 'cors'
 
 import ask from './API/AskAi'
 import login from './API/Login'
+import register from './API/Register'
+import initDatabase from "./Services/initDatabase";
 
 const app = express();
 
@@ -28,6 +30,9 @@ const corsOptions= {
     allowedHeaders: ['Content-Type'],
 };
 
+
+initDatabase().catch(error => console.error("function 'initDatabase' error", error));
+
 app.use(cors(corsOptions));// 使用 CORS 中间件
 
 // 全局使用 body-parser 中间件来解析请求体
@@ -37,7 +42,7 @@ app.use(express.urlencoded({ extended: true }));  // 解析 URL-encoded 请求�
 //使用express Router
 app.use("/askai", ask);
 app.use("/login", login);
-
+app.use("/register", register);
 
 app.get('/', (_, res) => {
     res.send('Welcome to Meow Backend !✨');

@@ -1,11 +1,8 @@
 import express, { Request, Response } from "express";
-import initDatabase from "../Services/initDatabase";
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
 
 const router = express.Router();
-
-initDatabase("accounts").catch(error => console.error("function 'initDatabase' error", error));
 
 async function checkAuth(UserId: string, Password: string): Promise<boolean> {
     const conn = await mysql.createConnection({

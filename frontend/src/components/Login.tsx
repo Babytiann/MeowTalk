@@ -1,8 +1,13 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex } from 'antd';
+import { NavLink, useNavigate } from "react-router"
+import {useState} from "react";
 import axios from "axios";
 
 export default function (){
+    const [loginSuccess, setLoginSuccess] = useState<boolean>(true)
+    let navigate = useNavigate();
+
     const onFinish =async (value: any) => {
         console.log("The values received: ", value)
         try {
@@ -13,8 +18,13 @@ export default function (){
                     ...value,
                 }
             })
+            if (response.status === 200) {
+                setLoginSuccess(true);
+                navigate("/home")
+            }
             console.log("Logining success: ", response.data)
         }catch(err){
+            setLoginSuccess(false);
             console.log("用户登录失败，错误返回为: ", err)
         }
     }
@@ -40,6 +50,9 @@ export default function (){
                     >
                         <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
                     </Form.Item>
+                    {
+                        !loginSuccess && <div className="absolute -translate-y-3/4">账号或密码错误！</div>
+                    }
                     <Form.Item>
                         <Flex justify="space-between" align="center">
                             <Form.Item name="remember" valuePropName="checked" noStyle>
@@ -53,7 +66,7 @@ export default function (){
                         <Button block type="primary" htmlType="submit">
                             Log in
                         </Button>
-                        or <a href="https://localhost:5173/register">Register now!</a>
+                        or <NavLink to="https://localhost:5173/register">Register now!</NavLink>
                     </Form.Item>
                 </Form>
             </div>
