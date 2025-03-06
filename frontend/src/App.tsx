@@ -8,7 +8,7 @@ function App() {
   return (
       <Suspense fallback={null} >
         <Routes >
-            <Route path={"/"} element={<Navigate to="/register" />}></Route>
+            <Route path={"/"} element={<Navigate to="/login" />}></Route>
             <Route path={"/login"} element={<Login />}></Route>
             <Route path={"/register"} element={<Register />} ></Route>
         </Routes>
