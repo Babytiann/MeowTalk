@@ -10,7 +10,7 @@ const router = express.Router();
 const fetchMeowTalk = async (message: string, res: Response) => {
 
     try {
-        const response = await axios.post("https://meow-talk.herokuapp.com/",
+        const response = await axios.post("https://spark-api-open.xf-yun.com/v1/chat/completions/",
             {
                 "max_tokens": 4096,
                 "top_k": 4,
