@@ -1,11 +1,12 @@
 import { Input, Form, Button, message } from 'antd';
-import axios from 'axios';
+
 import {useState} from "react";
 
 function InputSection() {
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
     const { TextArea } = Input;
+
 
     const handleSubmit = async () => {
         if (!value.trim()) {
@@ -15,21 +16,21 @@ function InputSection() {
 
         setLoading(true);
         try {
-            const response = await axios("http://localhost:5927/askai", {
+            const response = await fetch("http://localhost:5927/askai", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                data: { message: value }
+                body: JSON.stringify({ message: value })
             });
 
-            if (response.status !== 200) {
+            if (!response.ok) {
                 console.log("请求失败:", response);
                 return;
             }
 
             // 处理流式返回
-            const reader = response.data?.getReader();
+            const reader = response.body?.getReader();
             if (!reader) {
                 console.error("无法读取响应流");
                 return;
