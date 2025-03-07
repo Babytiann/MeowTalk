@@ -6,11 +6,10 @@ function Base() {
     return (
         <div className="flex">
             <Sider></Sider>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full h-full">
                 <Header></Header>
                 <Outlet />
             </div>
-
         </div>
     )
 }

@@ -4,6 +4,7 @@ import {Suspense} from "react";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Base from "./components/Base/Base.tsx"
+import Home from "./components/Base/Home.tsx"
 import Loading from "./components/Loading";
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
             <Route path={"/login"} element={<Login />}></Route>
             <Route path={"/register"} element={<Register />} ></Route>
             <Route path={"/home"} element={<Base />}>
-
+                <Route index element={<Home />}></Route>
             </Route>
         </Routes>
       </Suspense>
