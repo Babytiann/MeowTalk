@@ -25,7 +25,8 @@ const fetchMeowTalk = async (message: string, res: Response) => {
                         "content": message,
                     }
                 ],
-                "model": "4.0Ultra"
+                "model": "4.0Ultra",
+                "stream": true
             },
             {
                 headers: {
@@ -44,7 +45,9 @@ const fetchMeowTalk = async (message: string, res: Response) => {
 
         response.data.on("data", (chunk: Buffer) => {
             const dataStr = chunk.toString().trim();
-            if (dataStr.startsWith("data:")) {
+            console.log(dataStr);
+
+            if (!dataStr.startsWith('data: [DONE]')){
                 try {
                     const jsonData = JSON.parse(dataStr.replace(/^data:/, "").trim());
                     const textChunk = jsonData?.choices?.[0]?.delta?.content;
