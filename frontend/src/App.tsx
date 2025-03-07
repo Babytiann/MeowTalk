@@ -4,10 +4,11 @@ import {Suspense} from "react";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Base from "./components/Base/Base.tsx"
+import Loading from "./components/Loading";
 
 function App() {
   return (
-      <Suspense fallback={null} >
+      <Suspense fallback={<Loading />} >
         <Routes >
             <Route path={"/"} element={<Navigate to="/login" />}></Route>
             <Route path={"/login"} element={<Login />}></Route>

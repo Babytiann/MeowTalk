@@ -5,3 +5,7 @@
 *::after {
     box-sizing: border-box;
 }
+
+@theme {
+    --color-sider: #F9F9F9,
+}
