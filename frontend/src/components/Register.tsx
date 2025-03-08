@@ -38,7 +38,8 @@ const Register = () => {
                 url: "http://localhost:5927/register",
                 data: {
                     ...values,
-                }
+                },
+                withCredentials: true,
             })
             if (response.status === 200) {
                 console.log("Register success");

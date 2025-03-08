@@ -83,7 +83,8 @@ router
     })
     .post("/", async (req: Request, res: Response)=> {
        try{
-           const { message } = req.body; // 获取前端传来的 message
+           const { message, uuid } = req.body; // 获取前端传来的 message
+           console.log(uuid)
 
            await fetchMeowTalk(message, res);
 

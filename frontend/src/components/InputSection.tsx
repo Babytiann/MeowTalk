@@ -1,8 +1,7 @@
 import { Input, Form, Button, message } from 'antd';
-
 import {useState} from "react";
 
-function InputSection() {
+function InputSection({uuid}: Readonly<{uuid: string}>) {
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
     const { TextArea } = Input;
@@ -21,7 +20,10 @@ function InputSection() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ message: value })
+                body: JSON.stringify({
+                    message: value,
+                    uuid: uuid,
+                })
             });
 
             if (!response.ok) {
