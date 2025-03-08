@@ -23,7 +23,8 @@ function InputSection({uuid}: Readonly<{uuid: string}>) {
                 body: JSON.stringify({
                     message: value,
                     uuid: uuid,
-                })
+                }),
+                credentials: "include",
             });
 
             if (!response.ok) {

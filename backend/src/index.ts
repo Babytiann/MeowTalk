@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors'
+import cookieParser from 'cookie-parser';
 
 import ask from './API/AskAi'
 import login from './API/Login'
@@ -39,6 +40,7 @@ app.use(cors(corsOptions));// 使用 CORS 中间件
 // 全局使用 body-parser 中间件来解析请求体
 app.use(express.json());  // 解析 JSON 请求体
 app.use(express.urlencoded({ extended: true }));  // 解析 URL-encoded 请求体
+app.use(cookieParser());
 
 //使用express Router
 app.use("/askai", ask);
