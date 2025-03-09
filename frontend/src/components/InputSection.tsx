@@ -1,7 +1,7 @@
 import { Input, Form, Button, message } from 'antd';
 import {useState} from "react";
 
-function InputSection({uuid}: Readonly<{uuid: string}>) {
+function InputSection({sessionId}: Readonly<{sessionId: string}>) {
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
     const { TextArea } = Input;
@@ -22,7 +22,7 @@ function InputSection({uuid}: Readonly<{uuid: string}>) {
                 },
                 body: JSON.stringify({
                     message: value,
-                    uuid: uuid,
+                    sessionId: sessionId,
                 }),
                 credentials: "include",
             });

@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router"
 import {useState} from "react";
 import axios from "axios";
 
-export default function (){
+function Login() {
     const [loginSuccess, setLoginSuccess] = useState<boolean>(true)
     let navigate = useNavigate();
 
@@ -74,3 +74,5 @@ export default function (){
         </div>
     )
 }
+
+export default Login;

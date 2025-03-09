@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import fetchMeowTalk from "../ApiFunction/fetchMeowTalk";
+import addHistoryText from "../ApiFunction/addHistoryText";
 
 dotenv.config({ path: '.env.development.local' });
 
@@ -13,11 +14,12 @@ router
     })
     .post("/", async (req: Request, res: Response)=> {
        try{
-           const { message, uuid } = req.body; // 获取前端传来的 message
-           console.log(uuid)
-           await fetchMeowTalk(message, res);
+           const { message, sessionId } = req.body; // 获取前端传来的 message
 
-           console.log(req.cookies)
+           const fullText = await fetchMeowTalk(message, res);
+
+           await addHistoryText(message, "user", sessionId, req.cookies.userName);
+           await addHistoryText(fullText, "ai", sessionId, req.cookies.userName);
        }catch (error) {
            res.status(500).json({ error: "Failed to fetch AI response" });
        }
