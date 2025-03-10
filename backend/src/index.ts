@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import ask from './API/AskAi'
 import login from './API/Login'
 import register from './API/Register'
+import History from './API/History'
 import initDatabase from "./Services/initDatabase";
 
 const app = express();
@@ -29,7 +30,7 @@ const corsOptions= {
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
 };
 
 
@@ -46,6 +47,7 @@ app.use(cookieParser());
 app.use("/askai", ask);
 app.use("/login", login);
 app.use("/register", register);
+app.use("/history", History);
 
 app.get('/', (_, res) => {
     res.send('Welcome to Meow Backend !✨');

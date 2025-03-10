@@ -1,9 +1,21 @@
 import { useParams } from "react-router";
+import axios from "axios";
 import InputSection from "../InputSection.tsx";
 import MsgBox from "./MsgBox.tsx";
+import {useEffect} from "react";
 
 function Dialog() {
     let { sessionId } = useParams<{ sessionId: string }>();
+
+    useEffect(() => {
+        if (sessionId) {
+            axios.get(`http://localhost:5927/history?sessionId=${sessionId}`,{
+                withCredentials: true,
+            })
+                .then(response => console.log("后端响应:", response.data))
+                .catch(error => console.error("请求失败:", error));
+        }
+    }, [sessionId]);
 
     return (
         <div>
