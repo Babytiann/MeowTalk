@@ -44,7 +44,6 @@ async function addHistoryText(message: string, role: string, sessionId: string, 
         await new Promise<void>((resolve, reject) => {
             response.data.on("data", (chunk: Buffer) => {
                 const dataStr = chunk.toString().trim();
-                console.log("原始数据:", dataStr); // 用于调试
 
                 if (dataStr.startsWith("data: [DONE]")) {
                     return; // 结束标识，跳过
