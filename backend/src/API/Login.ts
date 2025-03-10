@@ -39,7 +39,6 @@ router
         res.send("Welcome to meow-talk Login API");
     })
     .post("/", async (req: Request, res: Response) => {
-        console.log(req.body);
         const { userName, password } = req.body;
 
         const isAuthenticated = await checkAuth(userName, password);
