@@ -1,17 +1,18 @@
 import { Input, Form, Button, message } from 'antd';
 import {useState} from "react";
 
-function InputSection({sessionId}: Readonly<{sessionId: string}>) {
+function InputSection({sessionId, onSendMessage}: Readonly<{sessionId: string; onSendMessage?:(newMessage: string) => void;}>) {
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
     const { TextArea } = Input;
-
 
     const handleSubmit = async () => {
         if (!value.trim()) {
             message.warning("请输入内容");
             return;
         }
+
+        onSendMessage && onSendMessage(value);
 
         setLoading(true);
         try {
