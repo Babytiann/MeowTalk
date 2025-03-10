@@ -11,7 +11,7 @@ async function getHistory(sessionId: string, userName: string) {
     try{
         const query = `select * from dialoginfo where sessionId = ? and userName = ? ORDER BY timestamp ASC`;
         const [rows] = await conn.execute(query, [sessionId, userName]);
-        console.log(rows);
+
         return rows;
     }catch(err){
         console.error("fetch histryDialog error", err);
