@@ -1,5 +1,4 @@
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
 
 function MsgBox({ msg, role }: Readonly<MsgBoxProps>) {
     return (
@@ -18,10 +17,8 @@ function MsgBox({ msg, role }: Readonly<MsgBoxProps>) {
                     <div
                         className="rounded-2xl py-[10px] px-5
                        inline-block break-words max-w-[736px]"
+                        dangerouslySetInnerHTML={{ __html: msg }}
                     >
-                        <SyntaxHighlighter style={docco} language="tsx" >
-                            {msg} {/* 将 msg 作为字符串传递给 SyntaxHighlighter */}
-                        </SyntaxHighlighter>
                     </div>
                 </div>
             )}

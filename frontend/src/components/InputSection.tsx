@@ -1,7 +1,7 @@
 import { Input, Form, Button, message } from 'antd';
 import {useState} from "react";
 
-function InputSection({sessionId, onSendMessage}: Readonly<{sessionId: string; onSendMessage?:(newMessage: string, role: 'user' | 'ai') => void;}>) {
+function InputSection({sessionId, onSendMessage, onAiMessage}: Readonly<{sessionId: string; onSendMessage?:(newMessage: string) => void; onAiMessage?:(newMessage: string) => void}>) {
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
     const { TextArea } = Input;
@@ -12,7 +12,7 @@ function InputSection({sessionId, onSendMessage}: Readonly<{sessionId: string; o
             return;
         }
 
-        onSendMessage && onSendMessage(value, "user");
+        onSendMessage && onSendMessage(value);
 
         setLoading(true);
         try {
@@ -48,7 +48,7 @@ function InputSection({sessionId, onSendMessage}: Readonly<{sessionId: string; o
                 if (done) break;
                 aiResponse += decoder.decode(value, { stream: true });
                 console.log("AI 返回:", aiResponse);
-                onSendMessage && onSendMessage(aiResponse, "ai");
+                onAiMessage && onAiMessage(aiResponse);
             }
             setValue(""); // 清空输入框
         } catch (error) {

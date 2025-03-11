@@ -1,37 +1,56 @@
 import { useParams } from "react-router";
 import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 import InputSection from "../InputSection.tsx";
 import MsgBox from "./MsgBox.tsx";
-import { useEffect, useState } from "react";
 
 function Dialog() {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [messages, setMessages] = useState<any[]>([]);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if (sessionId) {
+        if (sessionId && messages.length === 0) {
             axios.get(`http://localhost:5927/history?sessionId=${sessionId}`, { withCredentials: true })
                 .then(res => setMessages(res.data))
-                .catch(err => console.error("Error fetching messages in Dialog.tsx error, information:", err));
+                .catch(err => console.error("Error fetching messages:", err));
         }
     }, [sessionId]);
 
-    const addMessage = (newMessage: string, role: 'user' | 'ai') => {
-        setMessages(prev => [...prev, { id: Date.now(), message: newMessage, role }]);
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
+    // 用户发送消息
+    const handleSendMessage = (newMessage: string) => {
+        setMessages(prev => [
+            ...prev,
+            { id: Date.now(), message: newMessage, role: "user" },
+            { id: "ai_latest", message: "", role: "ai1" } // 预留 AI 消息框
+        ]);
     };
 
-
-    const List = messages.map(item => (
-        <MsgBox key={item.id} msg={item.message} role={item.role} />
-    ));
+    // AI 流式返回消息（覆盖上一次的 AI 消息）
+    const handleAiMessage = (newMessage: string) => {
+        setMessages(prev => {
+            return prev.map(msg =>
+                msg.id === "ai_latest"
+                    ? { ...msg, message: newMessage } // 累积 AI 回复内容
+                    : msg
+            );
+        });
+    };
 
     return (
         <div>
             <div className="h-[670px] overflow-y-scroll">
-                {List}
+                {messages.map(item => (
+                    <MsgBox key={item.id} msg={item.message} role={item.role} />
+                ))}
+                <div ref={messagesEndRef} />
             </div>
-            <div className="absolute bottom-6 left-[57%] -translate-x-1/2 z-10 shadow-md rounded-2xl border-1 border-solid border-green-200">
-                <InputSection sessionId={sessionId ?? ""} onSendMessage={addMessage} />
+            <div className="absolute bottom-6 left-[57%] -translate-x-1/2 z-10 shadow-md rounded-2xl border border-green-200">
+                <InputSection sessionId={sessionId ?? ""} onSendMessage={handleSendMessage} onAiMessage={handleAiMessage} />
             </div>
         </div>
     );
