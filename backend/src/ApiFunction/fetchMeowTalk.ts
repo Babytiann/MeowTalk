@@ -1,6 +1,6 @@
 import { Response } from "express";
 import axios from "axios";
-import {marked} from "marked";
+import { marked } from "marked";
 
 const fetchMeowTalk = async (message: string, res?: Response): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -37,6 +37,7 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
             res?.setHeader("Connection", "keep-alive");
 
             let fullResponse = "";
+            let isFirstChunk = true; // 标记是否是第一个文本片段
 
             response.then(apiResponse => {
                 apiResponse.data.on("data", (chunk: Buffer) => {
@@ -48,9 +49,15 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
                             const jsonData = JSON.parse(dataStr.replace(/^data:/, "").trim());
                             const textChunk = jsonData?.choices?.[0]?.delta?.content;
                             if (textChunk) {
-                                const htmlChunk = marked.parse(textChunk);
-                                fullResponse += htmlChunk;
-                                res?.write(htmlChunk); // 逐步返回数据
+                                if (isFirstChunk) {
+                                    fullResponse += textChunk;
+                                    res?.write(marked.parse(textChunk));
+                                    isFirstChunk = false;
+                                } else {
+                                    // 不是第一个片段，拼接时避免换行符带来的断句
+                                    fullResponse += textChunk;
+                                    res?.write(marked.parse(textChunk));
+                                }
                             }
                         } catch (err) {
                             console.error("JSON 解析失败:", err);

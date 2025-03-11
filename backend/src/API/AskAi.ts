@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import fetchMeowTalk from "../ApiFunction/fetchMeowTalk";
 import addHistoryText from "../ApiFunction/addHistoryText";
+import { marked } from "marked";
 
 dotenv.config({ path: '.env.development.local' });
 
@@ -19,7 +20,7 @@ router
            const fullText = await fetchMeowTalk(message, res);
 
            await addHistoryText(message, "user", sessionId, req.cookies.userName);
-           await addHistoryText(fullText, "ai", sessionId, req.cookies.userName);
+           await addHistoryText( await marked.parse(fullText), "ai", sessionId, req.cookies.userName);
        }catch (error) {
            res.status(500).json({ error: "Failed to fetch AI response" });
        }
