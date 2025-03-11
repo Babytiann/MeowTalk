@@ -16,10 +16,10 @@ function Dialog() {
         }
     }, [sessionId]);
 
-    const handleSendMessage = (newMessage: string) => {
-        const updatedMessages = [...messages, { id: Date.now(), message: newMessage, role: 'user' }];
-        setMessages(updatedMessages);
+    const addMessage = (newMessage: string, role: 'user' | 'ai') => {
+        setMessages(prev => [...prev, { id: Date.now(), message: newMessage, role }]);
     };
+
 
     const List = messages.map(item => (
         <MsgBox key={item.id} msg={item.message} role={item.role} />
@@ -31,7 +31,7 @@ function Dialog() {
                 {List}
             </div>
             <div className="absolute bottom-6 left-[57%] -translate-x-1/2 z-10 shadow-md rounded-2xl border-1 border-solid border-green-200">
-                <InputSection sessionId={sessionId ?? ""} onSendMessage={handleSendMessage} />
+                <InputSection sessionId={sessionId ?? ""} onSendMessage={addMessage} />
             </div>
         </div>
     );
