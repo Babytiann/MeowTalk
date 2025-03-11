@@ -6,8 +6,8 @@ function MsgBox({ msg, role }: Readonly<MsgBoxProps>) {
                     <div
                         className="bg-[#F3F3F3] rounded-2xl py-[10px] px-5
                        inline-block break-words max-w-[521px]"
+                        dangerouslySetInnerHTML={{ __html: msg }}
                     >
-                        {msg}
                     </div>
                 </div>
             ) : (
@@ -15,8 +15,8 @@ function MsgBox({ msg, role }: Readonly<MsgBoxProps>) {
                     <div
                         className="rounded-2xl py-[10px] px-5
                        inline-block break-words "
+                        dangerouslySetInnerHTML={{ __html: msg }}
                     >
-                        {msg}
                     </div>
                 </div>
             )}

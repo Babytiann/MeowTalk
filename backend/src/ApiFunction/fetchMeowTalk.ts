@@ -1,5 +1,6 @@
 import { Response } from "express";
 import axios from "axios";
+import {marked} from "marked";
 
 const fetchMeowTalk = async (message: string, res?: Response): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -47,8 +48,9 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
                             const jsonData = JSON.parse(dataStr.replace(/^data:/, "").trim());
                             const textChunk = jsonData?.choices?.[0]?.delta?.content;
                             if (textChunk) {
-                                fullResponse += textChunk;
-                                res?.write(textChunk); // 逐步返回数据
+                                const htmlChunk = marked.parse(textChunk);
+                                fullResponse += htmlChunk;
+                                res?.write(htmlChunk); // 逐步返回数据
                             }
                         } catch (err) {
                             console.error("JSON 解析失败:", err);
