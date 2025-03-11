@@ -35,6 +35,7 @@ function InputSection({sessionId, onSendMessage, onAiMessage}: Readonly<{session
 
             // 处理流式返回
             const reader = response.body?.getReader();
+            setValue("")
             if (!reader) {
                 console.error("无法读取响应流");
                 return;
@@ -46,11 +47,10 @@ function InputSection({sessionId, onSendMessage, onAiMessage}: Readonly<{session
             while (true) {
                 const { value, done } = await reader.read();
                 if (done) break;
-                aiResponse += decoder.decode(value, { stream: true });
+                aiResponse = decoder.decode(value, { stream: true });
                 console.log("AI 返回:", aiResponse);
                 onAiMessage && onAiMessage(aiResponse);
             }
-            setValue(""); // 清空输入框
         } catch (error) {
             console.error("请求出错:", error);
         } finally {

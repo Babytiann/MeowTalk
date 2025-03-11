@@ -42,7 +42,6 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
             response.then(apiResponse => {
                 apiResponse.data.on("data", (chunk: Buffer) => {
                     const dataStr = chunk.toString().trim();
-                    console.log(dataStr);
 
                     if (!dataStr.startsWith('data: [DONE]')) {
                         try {
@@ -56,7 +55,7 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
                                 } else {
                                     // 不是第一个片段，拼接时避免换行符带来的断句
                                     fullResponse += textChunk;
-                                    res?.write(marked.parse(textChunk));
+                                    res?.write(marked.parse(fullResponse));
                                 }
                             }
                         } catch (err) {

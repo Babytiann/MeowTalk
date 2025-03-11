@@ -7,6 +7,7 @@ import MsgBox from "./MsgBox.tsx";
 function Dialog() {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [messages, setMessages] = useState<any[]>([]);
+    const [aiMessageId, setAiMessageId] = useState<number>(0);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -23,10 +24,12 @@ function Dialog() {
 
     // 用户发送消息
     const handleSendMessage = (newMessage: string) => {
+        setAiMessageId(pre => pre + 1);
+
         setMessages(prev => [
             ...prev,
             { id: Date.now(), message: newMessage, role: "user" },
-            { id: "ai_latest", message: "", role: "ai1" } // 预留 AI 消息框
+            { id: aiMessageId, message: "", role: "ai" } // 预留 AI 消息框
         ]);
     };
 
@@ -34,8 +37,8 @@ function Dialog() {
     const handleAiMessage = (newMessage: string) => {
         setMessages(prev => {
             return prev.map(msg =>
-                msg.id === "ai_latest"
-                    ? { ...msg, message: newMessage } // 累积 AI 回复内容
+                msg.id === aiMessageId
+                    ? { ...msg, message: newMessage }
                     : msg
             );
         });
