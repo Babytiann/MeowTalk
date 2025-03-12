@@ -9,7 +9,7 @@ import Loading from "./components/Loading";
 import Dialog from "./components/Dialog/Dialog.tsx"
 
 function App() {
-  return (
+    return (
       <Suspense fallback={<Loading />} >
         <Routes >
             <Route path={"/"} element={<Navigate to="/login" />}></Route>
