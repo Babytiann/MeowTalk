@@ -44,6 +44,23 @@ function Dialog() {
         });
     };
 
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5927/history?sessionId=${sessionId}`, { withCredentials: true });
+                setMessages(res.data);
+            } catch (err) {
+                console.error("Error fetching messages:", err);
+            }
+        };
+
+        const interval = setInterval(fetchMessages, 200);
+
+        setTimeout(() => {
+            clearInterval(interval);
+        }, 5000)
+    }, [sessionId]);
+
     return (
         <div>
             <div className="h-[670px] overflow-y-scroll">
