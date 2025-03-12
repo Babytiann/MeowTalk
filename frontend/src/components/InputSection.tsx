@@ -1,7 +1,7 @@
 import { Input, Form, Button, message } from 'antd';
 import {useState} from "react";
 
-function InputSection({sessionId, onSendMessage, onAiMessage}: Readonly<{sessionId: string; onSendMessage?:(newMessage: string) => void; onAiMessage?:(newMessage: string) => void}>) {
+function InputSection({sessionId, onSendMessage, onAiMessage, onCreateDialog}: Readonly<InputSectionProps>) {
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
     const { TextArea } = Input;
@@ -12,10 +12,11 @@ function InputSection({sessionId, onSendMessage, onAiMessage}: Readonly<{session
             return;
         }
 
-        onSendMessage && onSendMessage(value);
+        onSendMessage?.(value);
 
         setLoading(true);
         try {
+            onCreateDialog?.()
             const response = await fetch("http://localhost:5927/askai", {
                 method: "POST",
                 headers: {
@@ -48,8 +49,8 @@ function InputSection({sessionId, onSendMessage, onAiMessage}: Readonly<{session
                 const { value, done } = await reader.read();
                 if (done) break;
                 aiResponse = decoder.decode(value, { stream: true });
-                console.log("AI 返回:", aiResponse);
-                onAiMessage && onAiMessage(aiResponse);
+
+                onAiMessage?.(aiResponse)
             }
         } catch (error) {
             console.error("请求出错:", error);

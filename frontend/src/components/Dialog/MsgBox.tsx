@@ -2,7 +2,7 @@
 
 function MsgBox({ msg, role }: Readonly<MsgBoxProps>) {
     return (
-        <div className="w-[728px] mx-auto flex text-md leading-7">
+        <div className="w-[728px] mx-auto flex text-md leading-7 mb-5">
             {role === "user" ? (
                 <div className="flex justify-end w-full">
                     <div
