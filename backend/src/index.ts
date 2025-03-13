@@ -6,6 +6,7 @@ import ask from './API/AskAi'
 import login from './API/Login'
 import register from './API/Register'
 import History from './API/History'
+import CardHistory from './API/CardHistory'
 import initDatabase from "./Services/initDatabase";
 
 const app = express();
@@ -48,6 +49,7 @@ app.use("/askai", ask);
 app.use("/login", login);
 app.use("/register", register);
 app.use("/history", History);
+app.use("/CardHistory", CardHistory);
 
 app.get('/', (_, res) => {
     res.send('Welcome to Meow Backend !✨');

@@ -14,3 +14,9 @@ declare interface InputSectionProps {
     onAiMessage?:(newMessage: string) => void;
     onCreateDialog?:() => void;
 }
+
+declare interface CardHistory {
+    id: string;
+    description: string;
+    sessionId: string;
+}
