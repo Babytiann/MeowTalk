@@ -1,8 +1,13 @@
 import express, { Request, Response } from "express";
 import mysql from 'mysql2/promise';
+import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
+import dotenv from "dotenv";
 
 const router = express.Router();
+
+dotenv.config({ path: '.env.development.local' });
+const JWT_SECRET = process.env.JWT_SECRET as string
 
 async function checkAuth(UserName: string, Password: string): Promise<boolean> {
     const conn = await mysql.createConnection({
@@ -34,6 +39,10 @@ async function checkAuth(UserName: string, Password: string): Promise<boolean> {
     }
 }
 
+function generateToken(userName: string): string {
+    return jwt.sign({ userName }, JWT_SECRET, { expiresIn: "7d" });
+}
+
 router
     .get("/", async ( _ , res: Response ) => {
         res.send("Welcome to meow-talk Login API");
@@ -43,12 +52,23 @@ router
 
         const isAuthenticated = await checkAuth(userName, password);
         if (isAuthenticated) {
+            const token = generateToken(userName);
+
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                domain: 'localhost',
+                path: '/',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 天有效期
+            });
+
             res.cookie('userName', userName, {
-                httpOnly: true,    // 防止 XSS 窃取
-                secure: false,     // 在 HTTPS 时要设为 true
-                sameSite: 'lax',   // 防止 CSRF（Lax 允许同站导航）
-                domain: 'localhost', // 作用域设为 localhost
-                path: '/',         // 在整个网站可用
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                domain: 'localhost',
+                path: '/',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 天有效期
             });
 
