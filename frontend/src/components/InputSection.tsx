@@ -60,7 +60,7 @@ function InputSection({sessionId, onSendMessage, onAiMessage, onCreateDialog}: R
     };
 
     return (
-        <div className="w-[768px] px-3 py-1">
+        <div className="w-[768px] px-3 py-1 shadow-md rounded-2xl border border-green-200">
             <Form onFinish={handleSubmit}>
                 <TextArea autoSize={{ minRows: 3, maxRows: 5 }}
                           placeholder="询问任何问题"

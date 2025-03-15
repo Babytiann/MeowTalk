@@ -69,7 +69,7 @@ function Dialog() {
                 ))}
                 <div ref={messagesEndRef} />
             </div>
-            <div className="absolute bottom-6 left-[57%] -translate-x-1/2 z-10 shadow-md rounded-2xl border border-green-200">
+            <div className="absolute bottom-6 left-[57%] -translate-x-1/2 z-10">
                 <InputSection sessionId={sessionId ?? ""} onSendMessage={handleSendMessage} onAiMessage={handleAiMessage} />
             </div>
         </div>

@@ -11,11 +11,9 @@ function Sider() {
     useEffect(() => {
         axios.get("http://localhost:5927/CardHistory", { withCredentials: true })
             .then(res => {
-                console.log(res.data);
                 setCardHistory(res.data)
             })
             .catch(err => console.error("Error fetching CardHistory:", err));
-
     }, []);
 
     function navigatetoHome() {
@@ -26,11 +24,11 @@ function Sider() {
         <div className="min-w-[248px] h-[100vh] bg-[#F9F9F9] rounded-md flex flex-col">
             <div className="h-14 pr-3 flex justify-end items-center">
                 <button className="size-10 px-2 rounded-md flex justify-center items-center
-                                   hover:bg-[#E7E7E7]"
+                                   hover:bg-[#E7E7E7] hover:cursor-pointer"
                       onClick={() => navigatetoHome()}
                       aria-label="Go to home"
                 >
-                    <FormOutlined className="text-[24px]"/>
+                    <FormOutlined className="text-[20px]"/>
                 </button>
             </div>
             <div>
