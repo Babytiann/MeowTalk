@@ -40,7 +40,7 @@ async function checkAuth(UserName: string, Password: string): Promise<boolean> {
 }
 
 function generateToken(userName: string): string {
-    return jwt.sign({ userName }, JWT_SECRET, { expiresIn: "7d" });
+    return jwt.sign({ userName: userName }, JWT_SECRET, { expiresIn: "7d" });
 }
 
 router

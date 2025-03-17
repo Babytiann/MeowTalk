@@ -35,7 +35,6 @@ const corsOptions= {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
 };
 
-
 initDatabase().catch(error => console.error("function 'initDatabase' error", error));
 
 app.use(cors(corsOptions));// 使用 CORS 中间件
