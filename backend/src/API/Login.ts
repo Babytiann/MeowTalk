@@ -57,8 +57,7 @@ router
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: false,
-                sameSite: 'lax',
-                domain: 'localhost',
+                sameSite: 'none', //同源策略是否启用，以及如何启用
                 path: '/',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 天有效期
             });
@@ -67,7 +66,6 @@ router
                 httpOnly: true,
                 secure: false,
                 sameSite: 'lax',
-                domain: 'localhost',
                 path: '/',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 天有效期
             });

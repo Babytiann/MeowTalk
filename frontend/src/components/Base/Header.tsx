@@ -1,11 +1,13 @@
 import { LogoutOutlined} from "@ant-design/icons";
-import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function Header() {
-    const [showWindow, setShowWindow] = useState<boolean>(false);
+    const navigate = useNavigate();
 
-    function handleShowWindow() {
-        showWindow ? setShowWindow(false) : setShowWindow(true);
+    function handleLogout() {
+        fetch('/logout', { method: 'POST', credentials: 'include' }).then(() => {
+            navigate('/login');
+        });
     }
 
     return (
@@ -14,27 +16,30 @@ function Header() {
                 <span className="text-xl font-bold text-[#5D5D5D]">MeowTalk</span>
             </a>
             <div className="size-[36px]">
-                <button className="size-[36px]" onClick={handleShowWindow}>
+                <button className="size-[36px]">
                     <img src={"../../assets/img/克鲁鲁.jpg"} alt="avatar" className="object-contain rounded-full hover:cursor-pointer"/>
                 </button>
             </div>
-            {showWindow && (
-                <div className="absolute right-4 p-[6px] top-15 w-[240px]
+            <input type={"checkbox"} className="size-8 appar absolute right-[14px] appearance-none hover:cursor-pointer peer"
+                                     onBlur={(e) => e.target.checked = false}   />
+            <div className="absolute right-4 p-[6px] top-15 w-[240px]
                             border-1 border-gray-200 rounded-lg
                             bg-white
                             z-10
+                            opacity-0
+                            transition-all
+                            duration-300
+                            peer-checked:opacity-100
                             ">
                 <button className="w-full p-2 h-10 flex justify-start  rounded-md
                                 hover:bg-[#ECECEC]
                                   hover:cursor-pointer
                                   gap-2
-                                  ">
+                                  " onClick={handleLogout}>
                     <LogoutOutlined className="text-[20px]"/>
                     <span>注销</span>
                 </button>
             </div>
-            )}
-
         </div>
     )
 }
