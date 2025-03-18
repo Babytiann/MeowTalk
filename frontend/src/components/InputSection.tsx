@@ -13,49 +13,30 @@ function InputSection({sessionId, onSendMessage, onAiMessage, onCreateDialog}: R
         }
 
         onSendMessage?.(value);
-
         setLoading(true);
+        onCreateDialog?.()
+        setValue("");
+
         try {
-            onCreateDialog?.()
-            const response = await fetch("http://localhost:5927/askai", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: value,
-                    sessionId: sessionId,
-                }),
-                credentials: "include",
+            const eventSource = new EventSource(`http://localhost:5927/askai?message=${encodeURIComponent(value)}&sessionId=${sessionId}`, {withCredentials: true});
+
+            eventSource.onmessage = (event) => {
+                onAiMessage?.(event.data);
+            };
+
+            eventSource.onerror = () => {
+                eventSource.close();
+                setLoading(false);
+                message.error("连接异常，已断开");
+            };
+
+            eventSource.addEventListener("end", () => {
+                eventSource.close();
+                setLoading(false);
             });
 
-            if (!response.ok) {
-                console.log("请求失败:", response);
-                return;
-            }
-
-            // 处理流式返回
-            const reader = response.body?.getReader();
-            setValue("")
-            if (!reader) {
-                console.error("无法读取响应流");
-                return;
-            }
-
-            const decoder = new TextDecoder("utf-8");
-            let aiResponse = "";
-
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                aiResponse = decoder.decode(value, { stream: true });
-
-                onAiMessage?.(aiResponse)
-            }
         } catch (error) {
             console.error("请求出错:", error);
-        } finally {
-            setLoading(false);
         }
     };
 

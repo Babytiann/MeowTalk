@@ -10,8 +10,17 @@ const router = express.Router();
 
 // 处理前端请求
 router
-    .get('/', (_, res) => {
-        res.send('Welcome to Meow Backend !');
+    .get('/',async (req: Request, res: Response) => {
+        try{
+            const { message, sessionId } = req.query; // 获取前端传来的 message
+
+            const fullText = await fetchMeowTalk(message as string, res);
+
+            await addHistoryText(message as string, "user", sessionId as string, req.cookies.userName);
+            await addHistoryText( await marked.parse(fullText), "ai", sessionId as string, req.cookies.userName);
+        }catch (error) {
+            res.status(500).json({ error: "Failed to fetch AI response" });
+        }
     })
     .post("/", async (req: Request, res: Response)=> {
        try{

@@ -47,17 +47,15 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
                         try {
                             const jsonData = JSON.parse(dataStr.replace(/^data:/, "").trim());
                             const textChunk = jsonData?.choices?.[0]?.delta?.content;
-                            if (textChunk) {
-                                if (isFirstChunk) {
-                                    fullResponse += textChunk;
-                                    res?.write(marked.parse(textChunk));
-                                    isFirstChunk = false;
-                                } else {
-                                    // 不是第一个片段，拼接时避免换行符带来的断句
-                                    fullResponse += textChunk;
-                                    res?.write(marked.parse(fullResponse));
-                                }
-                            }
+
+                            fullResponse += textChunk;
+
+                            // 只渲染新获取的内容
+                            const parsedText = isFirstChunk ? marked.parse(textChunk) : marked.parse(fullResponse);
+                            isFirstChunk = false;
+
+                            // 发送 SSE 数据流
+                            res?.write(`data: ${parsedText}\n\n`); //SSE规范，一定要data: XXX\n\n
                         } catch (err) {
                             console.error("JSON 解析失败:", err);
                         }
@@ -66,9 +64,9 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
 
                 apiResponse.data.on("end", () => {
                     res?.end();
-                    console.log("完整响应内容:", fullResponse);
-                    resolve(fullResponse); // 这里确保最终返回 fullResponse
-                });
+                    console.log("完整响应内容：", fullResponse);
+                    resolve(fullResponse);
+                })
 
                 apiResponse.data.on("error", (err: any) => {
                     console.error("流式请求出错:", err);
@@ -77,11 +75,13 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
             }).catch(error => {
                 console.error("Error fetching MeowTalk API:", error);
                 res?.status(500).json({ error: "Failed to fetch AI response" });
+                reject("Ai 请求出错")
             });
 
         } catch (error) {
             console.error("Error in fetchMeowTalk:", error);
             res?.status(500).json({ error: "Failed to fetch AI response" });
+            reject("Ai 请求出错")
         }
     });
 };
