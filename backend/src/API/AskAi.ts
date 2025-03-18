@@ -14,9 +14,10 @@ router
         try{
             const { message, sessionId } = req.query; // 获取前端传来的 message
 
+            await addHistoryText(message as string, "user", sessionId as string, req.cookies.userName);
+
             const fullText = await fetchMeowTalk(message as string, res);
 
-            await addHistoryText(message as string, "user", sessionId as string, req.cookies.userName);
             await addHistoryText( await marked.parse(fullText), "ai", sessionId as string, req.cookies.userName);
         }catch (error) {
             res.status(500).json({ error: "Failed to fetch AI response" });

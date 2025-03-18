@@ -54,7 +54,7 @@ function Dialog() {
             }
         };
 
-        const interval = setInterval(fetchMessages, 500);
+        const interval = setInterval(fetchMessages, 200);
 
         const counter = setTimeout(() => {
             clearInterval(interval);
