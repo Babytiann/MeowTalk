@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from "react-router";
-import {Suspense} from "react";
+import {Suspense, lazy} from "react";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Base from "./components/Base/Base.tsx"
-import Home from "./components/Base/Home.tsx"
-import Loading from "./components/Loading";
-import Dialog from "./components/Dialog/Dialog.tsx"
+const Login = lazy(() => import ("./components/Login"));
+const Register = lazy(() => import("./components/Register"));
+const Base = lazy(() => import("./components/Base/Base.tsx"));
+const Home = lazy(() => import("./components/Base/Base.tsx"))
+const Loading = lazy(() => import("./components/Loading"));
+const Dialog = lazy(() => import("./components/Loading"));
 
 function App() {
     return (
