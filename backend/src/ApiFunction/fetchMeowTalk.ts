@@ -1,6 +1,5 @@
 import { Response } from "express";
 import axios from "axios";
-import { marked } from "marked";
 
 const fetchMeowTalk = async (message: string, res?: Response): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -51,7 +50,7 @@ const fetchMeowTalk = async (message: string, res?: Response): Promise<string> =
                             fullResponse += textChunk;
 
                             // 只渲染新获取的内容
-                            const parsedText = isFirstChunk ? marked.parse(textChunk) : marked.parse(fullResponse);
+                            const parsedText = isFirstChunk ? textChunk : fullResponse;
                             isFirstChunk = false;
 
                             // 发送 SSE 数据流
