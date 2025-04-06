@@ -5,7 +5,7 @@ function Header() {
     const navigate = useNavigate();
 
     function handleLogout() {
-        fetch('/logout', { method: 'POST', credentials: 'include' }).then(() => {
+        fetch(' http://localhost:5927/logout', { method: 'POST', credentials: 'include' }).then(() => {
             navigate('/login');
         });
     }
@@ -26,10 +26,8 @@ function Header() {
                             border-1 border-gray-200 rounded-lg
                             bg-white
                             z-10
-                            opacity-0
-                            transition-all
-                            duration-300
-                            peer-checked:opacity-100
+                            invisible
+                            peer-checked:visible
                             ">
                 <button className="w-full p-2 h-10 flex justify-start  rounded-md
                                 hover:bg-[#ECECEC]
