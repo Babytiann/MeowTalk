@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from 'react';
+import { useEffect, useMemo } from 'react';
 
 import markdownit from 'markdown-it'
 import hljs from 'highlight.js'
@@ -16,7 +16,7 @@ function MsgBox({ msg, role }: Readonly<MsgBoxProps>) {
                         <div class="relative -mt-28 -mb-23" >
                             <div class="code-header flex justify-between items-center w-[660px] absolute top-23 text-[#5D5D5D] text-[0.8rem] pl-5">
                                 <span class="code-lang ">${lang}</span>
-                                <button class="copy-btn hover:cursor-pointer z-10">复制</button>   
+                                <button class="copy-btn hover:cursor-pointer z-10">复制</button>
                             </div>
                             <div class="hljs p-5 pt-10 overflow-auto rounded-xl text-[0.88rem]" data-code="${encodeURIComponent(str)}">${highlighted}</div>
                         </div>

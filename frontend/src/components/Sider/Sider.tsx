@@ -11,7 +11,7 @@ function Sider() {
     useEffect(() => {
         axios.get("http://localhost:5927/CardHistory", { withCredentials: true })
             .then(res => {
-                setCardHistory(res.data)
+                setCardHistory(res.data.reverse());
             })
             .catch(err => console.error("Error fetching CardHistory:", err));
     }, []);
