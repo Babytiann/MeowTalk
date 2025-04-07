@@ -32,7 +32,13 @@ function Login() {
 
     return(
         <div className="relative w-[100vw] h-[100vh]">
-            <div className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 absolute">
+            <div className="left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-5 absolute">
+                <div className="flex justify-center ">
+                    <div className="w-25">
+                        <img src="../../assets/img/克鲁鲁.jpg" alt={"克鲁鲁的头像"} className="object-contain  rounded-full"/>
+                    </div>
+                </div>
+
                 <Form
                     name="login"
                     initialValues={{ remember: true }}
