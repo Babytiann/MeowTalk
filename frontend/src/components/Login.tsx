@@ -65,7 +65,7 @@ function Login() {
                             <Form.Item name="remember" valuePropName="checked" noStyle>
                                 <Checkbox>Remember me</Checkbox>
                             </Form.Item>
-                            <a href="https://localhost:5173/reset">Forgot password</a>
+                            <a href="localhost:5173/reset">Forgot password</a>
                         </Flex>
                     </Form.Item>
 
@@ -73,7 +73,7 @@ function Login() {
                         <Button block type="primary" htmlType="submit">
                             Log in
                         </Button>
-                        or <NavLink to="https://localhost:5173/register">Register now!</NavLink>
+                        or <NavLink to="localhost:5173/register">Register now!</NavLink>
                     </Form.Item>
                 </Form>
             </div>
