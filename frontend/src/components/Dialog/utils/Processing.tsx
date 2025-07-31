@@ -44,7 +44,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
                 const isCopied = copiedCode === code;
 
                 elements.push(
-                    <div key={i} className="relative my-4 rounded-xl border bg-[#F9F9F9] overflow-hidden">
+                    <div key={i} className="relative my-1 rounded-xl border bg-[#F9F9F9] overflow-hidden">
                         <div className="code-header flex justify-between items-center px-4 py-2 text-sm text-gray-500 bg-gray-100">
                             <span>{lang || 'code'}</span>
                             <button

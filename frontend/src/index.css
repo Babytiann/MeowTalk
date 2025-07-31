@@ -9,3 +9,102 @@
 @theme {
     --color-sider: #F9F9F9,
 }
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* 代码高亮样式优化 */
+.hljs {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+}
+
+.hljs-keyword {
+    color: #fbbf24 !important;
+}
+
+.hljs-string {
+    color: #34d399 !important;
+}
+
+.hljs-comment {
+    color: #6b7280 !important;
+}
+
+.hljs-function {
+    color: #60a5fa !important;
+}
+
+.hljs-number {
+    color: #f87171 !important;
+}
+
+/* 输入框焦点样式 */
+textarea:focus {
+    outline: none;
+}
+
+/* 消息气泡动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-bubble {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* 代码框样式优化 */
+.code-header {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.copy-btn {
+    cursor: pointer;
+    user-select: none;
+}
+
+.copy-btn:hover {
+    opacity: 0.8;
+}
+
+/* 减少代码框与文本的间距 */
+.prose pre {
+    margin: 0.25rem 0 !important;
+}
+
+.prose p {
+    margin: 0.25rem 0 !important;
+}
+
+/* 进一步减少代码框间距 */
+.relative.my-1 {
+    margin: 0.25rem 0 !important;
+}
+
+/* 确保代码框内部没有多余间距 */
+.hljs {
+    margin: 0 !important;
+    padding: 1rem !important;
+}

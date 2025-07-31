@@ -22,16 +22,19 @@ function Sider() {
 
     return (
         <div className="min-w-[248px] h-[100vh] bg-[#F9F9F9] rounded-md flex flex-col">
-            <div className="h-14 pr-3 flex justify-end items-center">
-                <button className="size-10 px-2 rounded-md flex justify-center items-center
-                                   hover:bg-[#E7E7E7] hover:cursor-pointer"
-                      onClick={() => navigatetoHome()}
-                      aria-label="Go to home"
+            {/* 新聊天按钮 */}
+            <div className="px-3 pt-4 mb-4">
+                <button 
+                    onClick={navigatetoHome}
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-white hover:bg-gray-50 transition-colors duration-200 text-left hover:cursor-pointer"
                 >
-                    <FormOutlined className="text-[20px]"/>
+                    <FormOutlined className="text-gray-600 text-sm" />
+                    <span className="text-gray-800 text-sm font-medium">新聊天</span>
+                    <span className="text-gray-400 text-xs ml-auto">Ctrl + Shift + O</span>
                 </button>
             </div>
-            <div>
+            
+            <div className="px-3">
                 {CardHistory.map((item, _) => (
                     <Card key={item.id} sessionId={item.sessionId} msg={item.description} />
                 ))}

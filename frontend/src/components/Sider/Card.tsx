@@ -26,12 +26,14 @@ function Card({ sessionId, msg }: Readonly<CardProps>) {
         setIsOpen(false);
     }
     return (
-        <div className="max-h-[36px] w-[230px] p-[8px] rounded-xl bg-[#F9F9F9] flex items-center truncate hover:bg-[#ECECEC]">
-            <Link to={`/home/${sessionId}`} className="w-full" title={msg}>
-                <div className="max-w-[189px] truncate">{msg}</div>
+        <div className="w-full p-2 rounded-lg flex items-center truncate hover:bg-gray-100 transition-colors duration-200 mb-1">
+            <Link to={`/home/${sessionId}`} className="flex-1 min-w-0" title={msg}>
+                <div className="truncate text-sm text-gray-700">{msg}</div>
             </Link>
-            <div className="relative">
-                <div className="z-10 text-red-500 hover:cursor-pointer" onClick={showModal}><DeleteOutlined /></div>
+            <div className="relative ml-2">
+                <div className="text-gray-400 hover:text-red-500 hover:cursor-pointer transition-colors duration-200" onClick={showModal}>
+                    <DeleteOutlined className="text-sm" />
+                </div>
             </div>
             <Modal title="是否要删除该对话？" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
                 <p>即将删除对话: "{msg}"</p>

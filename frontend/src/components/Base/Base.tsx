@@ -4,11 +4,13 @@ import Header from "./Header.tsx";
 
 function Base() {
     return (
-        <div className="flex">
+        <div className="flex h-screen">
             <Sider></Sider>
-            <div className="flex flex-col w-full h-full">
+            <div className="flex flex-col flex-1 relative">
                 <Header></Header>
-                <Outlet />
+                <div className="flex-1 relative">
+                    <Outlet />
+                </div>
             </div>
         </div>
     )
