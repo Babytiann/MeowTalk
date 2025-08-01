@@ -1,11 +1,25 @@
 import { LogoutOutlined, UserOutlined, SettingOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
+import { clearAuthInfo, getAuthInfo } from "../../service/auth";
+import { message } from "antd";
 
 function Header() {
     const navigate = useNavigate();
 
     function handleLogout() {
-        fetch(' http://localhost:5927/logout', { method: 'POST', credentials: 'include' }).then(() => {
+        // 清除本地认证信息
+        clearAuthInfo();
+        
+        // 调用后端登出接口
+        fetch('http://localhost:5927/logout', { 
+            method: 'POST', 
+            credentials: 'include' 
+        }).then(() => {
+            message.success('已成功登出');
+            navigate('/login');
+        }).catch(() => {
+            // 即使后端调用失败，也清除本地信息并跳转
+            message.success('已成功登出');
             navigate('/login');
         });
     }
@@ -46,7 +60,9 @@ function Header() {
                                 />
                             </div>
                             <div>
-                                <div className="text-sm font-medium text-gray-900">克鲁鲁</div>
+                                <div className="text-sm font-medium text-gray-900">
+                                    {getAuthInfo()?.userName || '克鲁鲁'}
+                                </div>
                                 <div className="text-xs text-gray-500">在线</div>
                             </div>
                         </div>
